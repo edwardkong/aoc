@@ -18,7 +18,7 @@ def optimize_game(text: str):
     rounds = re.split(r'[;:]', text)
     for round in rounds[1:]:
         cubes = round.split(',')
-        for num, color in (cube.strip().split(' ') for cube in cubes):
+        for num, color in (cube.split() for cube in cubes):
             min_limit[color] = max(min_limit[color], int(num))
 
     power_cube = reduce(lambda x, y: x * y, min_limit.values())
