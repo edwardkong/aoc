@@ -5,9 +5,9 @@ class Reader():
         self.text = text
 
     def sum_adjacencies(self) -> int:
+        text = self.text
         curr_num, symbol_adj = '', False
         r_sum = 0
-        text = self.text
 
         for l_idx, line in enumerate(text):
             for c_idx, char in enumerate(line):
@@ -24,24 +24,65 @@ class Reader():
     @lru_cache
     def check_neighbors(self, line_num: int, char_num: int) -> bool:
         text = self.text
-        non_symbols = ('1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '.')
+        symbols = ('@', '#', '$', '%', '&', '*', '+', '=', '-', '/')
         num_lines = len(text) - 1
         num_chars = len(text[0]) - 1
 
-        l_start = 0 if line_num == 0 else -1
-        l_end = 1 if line_num == num_lines else 2
-        c_start = 0 if char_num == 0 else -1
-        c_end = 1 if char_num == num_chars else 2
-
-        for i in range(l_start, l_end):
-            for j in range(c_start, c_end):
-                if text[line_num + i][char_num + j] not in non_symbols:
-                    return True
+        for i in range(-1, 2):
+            for j in range(-1, 2):
+                curr_line, curr_char = line_num + i, char_num + j
+                if 0 <= curr_line <= num_lines and 0 <= curr_char <= num_chars:
+                    if text[curr_line][curr_char] in symbols:
+                        return True
         return False
     
-    def gear_ratios() -> int:
-        pass
+    def gen_gear_ratio(self) -> int:
+        text = self.text
+        curr_num = ''
+        gear_adj = False
+        gear_index = None, None
+        curr_gears = set()
+        gears = {}
 
+        for l_idx, line in enumerate(text):
+            for c_idx, char in enumerate(line):
+                if char.isdigit():
+                    curr_num += char
+                    gear_index = self.find_gear(l_idx, c_idx)
+                    if gear_index != (None, None): 
+                        gear_adj = True
+                        curr_gears.add(gear_index)
+                elif curr_num:
+                    if char == '*':
+                        curr_gears.add((l_idx, c_idx))
+                        gear_adj = True
+                    if not char.isdigit() and gear_adj:
+                        for gear in curr_gears:
+                            gears.setdefault(gear, []).append(int(curr_num))
+                    curr_num, gear_adj = '', False
+                    gear_index = None, None
+                    curr_gears = set()
+
+        gear_ratio = 0
+        for gear, adj_parts in gears.items():
+            if len(adj_parts) == 2:
+                gear_ratio += adj_parts[0] * adj_parts[1]
+
+        return gear_ratio
+    
+    @lru_cache
+    def find_gear(self, line_num: int, char_num: int) -> bool:
+        text = self.text
+        num_lines = len(text) - 1
+        num_chars = len(text[0]) - 1
+
+        for i in range(-1, 2):
+            for j in range(-1, 2):
+                curr_line, curr_char = line_num + i, char_num + j
+                if 0 <= curr_line <= num_lines and 0 <= curr_char <= num_chars:
+                    if text[curr_line][curr_char] == '*':
+                        return curr_line, curr_char
+        return None, None
 
 def main_part_one():
     with open('day3/input.txt', 'r') as file:
@@ -51,13 +92,12 @@ def main_part_one():
     return r_sum
 
 def main_part_two():
-    r_sum = 0
     with open('day3/input.txt', 'r') as file:
-        for line in file:
-            pass
-        #r_sum += optimize_game(line)
+        lines = [line.strip() for line in file]
+    reader = Reader(lines)
+    r_sum = reader.gen_gear_ratio()
     return r_sum
 
 if __name__ == '__main__':
     print(main_part_one())
-    #print(main_part_two())
+    print(main_part_two())
