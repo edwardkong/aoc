@@ -6,7 +6,7 @@ def play_game(text: str):
     rounds = re.split(r'[;:]', text)
     for round in rounds[1:]:
         if any(int(num) > limit[color] 
-            for num, color in (cube.strip().split(' ') 
+            for num, color in (cube.split()
                 for cube in round.split(','))):
                     return 0
 
@@ -24,7 +24,14 @@ def optimize_game(text: str):
     power_cube = reduce(lambda x, y: x * y, min_limit.values())
     return power_cube
             
-def main():
+def main_part_one():
+    r_sum = 0
+    with open('day2/input.txt', 'r') as file:
+        for line in file:
+            r_sum += play_game(line)
+    return r_sum
+
+def main_part_two():
     r_sum = 0
     with open('day2/input.txt', 'r') as file:
         for line in file:
@@ -32,4 +39,5 @@ def main():
     return r_sum
 
 if __name__ == '__main__':
-    print(main())
+    print(main_part_one())
+    print(main_part_two())

@@ -31,7 +31,14 @@ def num_sandwich(text: str) -> int:
 
     return first * 10 + last
 
-def main():
+def main_part_one():
+    r_sum = 0
+    with open('day1/input.txt', 'r') as file:
+        for line in file:
+            r_sum += digit_sandwich(line)
+    return r_sum
+
+def main_part_two():
     r_sum = 0
     with open('day1/input.txt', 'r') as file:
         for line in file:
@@ -39,4 +46,5 @@ def main():
     return r_sum
 
 if __name__ == '__main__':
-    print(main())
+    print(main_part_one())
+    print(main_part_two())
