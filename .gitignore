@@ -17,3 +17,6 @@ build/
 
 # Ignore system files
 .DS_Store
+
+# Ignore all inputs
+**/input.txt
