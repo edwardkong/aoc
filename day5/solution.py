@@ -2,31 +2,48 @@ class SeedMapper():
     def __init__(self, seeds: list[str], maps: list[str]):
         self.seeds = seeds
         self.maps = self.initialize_map(maps)
-    
-    @staticmethod
-    def seed_ranges(seeds: list[str]):
-        all_seeds = []
-        for i in range(0, len(seeds), 2):
-            src = int(seeds[i])
-            rng = int(seeds[i + 1])
-            all_seeds.extend(src + r for r in range(rng))
-        return all_seeds
-    
-    def search_ranges(self):
-        for map in self.maps:
-            for mapping in map:
-                m = mapping.split()
-                dest, src, offset = int(m[0]), int(m[1]), int(m[2])
-                # calculate min, max of ranges
 
-    
     def initialize_map(self, maps: list[str]):
         cleaned_maps = []
         for map in maps:
             map = map.split('\n')
             cleaned_maps.append(map[1:])
         return cleaned_maps
+    
+    def map_seed_ranges(self) -> int:
+        seeds = self.seeds
+        seed_ranges = list(zip(seeds[::2], seeds[1::2]))
+        seed_min = []
+        for pair in seed_ranges:
+            start, length = int(pair[0]), int(pair[1]) 
+            seed_min.append(self.map_ranges([(start, start + length)]))
+        return min(seed_min)
 
+    def map_ranges(self, ranges: list[int, int]) -> int:
+        for map_layer in self.maps:
+            hit = []
+            for map in map_layer:
+                new_ranges = []
+                dest, src, offset = [int(x) for x in map.split()]
+                src_end = int(src) + int(offset)
+                while ranges:
+                    (seed_start, seed_end) = ranges.pop()
+                    map_start = min(seed_end, src)
+                    x_start = max(seed_start, src)
+                    x_end = min(seed_end, src_end)
+                    map_end = max(seed_start, src_end)
+
+                    if map_start > seed_start:
+                        new_ranges.append((seed_start, map_start))
+                    if x_end > x_start:
+                        hit.append((x_start - src + dest, x_end - src + dest))
+                    if seed_end > map_end:
+                        new_ranges.append((map_end, seed_end))
+
+                ranges = new_ranges
+            ranges = hit + ranges
+        return min(ranges, key=lambda r: r[0])[0]
+    
     def get_min_seed_location(self) -> int:
         min_loc = float('inf')
         for seed in self.seeds:
@@ -58,8 +75,8 @@ def main_part_two():
     with open('day5/input.txt', 'r') as file:
         seeds = file.readline().split(':')[1].split()
         maps = file.read().strip().split('\n\n')
-    sm = SeedMapper(SeedMapper.seed_ranges(seeds), maps)
-    return sm.get_min_seed_location()
+    sm = SeedMapper(seeds, maps)
+    return sm.map_seed_ranges()
 
 if __name__ == '__main__':
     print(main_part_one())
