@@ -75,8 +75,10 @@ class Universe:
         total = 0
         for g in range(ng):
             for d in range(g + 1, ng):
-                max_x, min_x = max(gxs[g][0], gxs[d][0]), min(gxs[g][0], gxs[d][0])
-                max_y, min_y = max(gxs[g][1], gxs[d][1]), min(gxs[g][1], gxs[d][1])
+                max_x = max(gxs[g][0], gxs[d][0])
+                min_x = min(gxs[g][0], gxs[d][0])
+                max_y = max(gxs[g][1], gxs[d][1])
+                min_y = min(gxs[g][1], gxs[d][1])
                 for i in range(min_x, max_x):
                     col = gxs[g][1]
                     total += 1 if map[i][col] == '#' else map[i][col]
