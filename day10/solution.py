@@ -77,11 +77,14 @@ class Grid:
         w = len(self.grid[0])
         h = len(self.grid)
         new_grid = [['0'] * w for _ in range(h)]
+
         s = self.s
         prev_sq = s_coord = self.s_coord
         cur_sq = self.next_square(LINKS[s][0], s_coord)
-        while cur_sq != s_coord:
+        while True:
             new_grid[cur_sq[0]][cur_sq[1]] = self.grid[cur_sq[0]][cur_sq[1]]
+            if cur_sq == s_coord:
+                break
             pv_dir = tuple((x - y for x, y in zip (cur_sq, prev_sq)))
             cur_sq, prev_sq = self.next_square(pv_dir, cur_sq), cur_sq
         return [''.join(line) for line in new_grid]
@@ -95,7 +98,7 @@ class Grid:
             for j in i:
                 match j:
                     case '0':
-                        if inside: 
+                        if inside:
                             area += 1
                     case '|':
                         inside = not inside
@@ -109,13 +112,11 @@ class Grid:
                     case '7':
                         if last == 'L':
                             inside = not inside
-                        elif last == 'F':
-                            last = None
+                        last = None
                     case 'J':
                         if last == 'F':
                             inside = not inside
-                        elif last == 'L':
-                            last = None
+                        last = None
         return area
 
 def main_part_one():
