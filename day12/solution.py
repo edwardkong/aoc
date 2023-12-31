@@ -1,6 +1,4 @@
 import re
-import cProfile
-from collections import deque
 from functools import cache
 
 def spring_unpacker(line: str, unfold=False):
