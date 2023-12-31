@@ -33,7 +33,7 @@ def main_part_one():
         for line in file.readlines():
             springs, groups = spring_unpacker(line.strip())
             r_sum += count_arrangements(springs, groups)
-        return r_sum
+    return r_sum
 
 def main_part_two():
     r_sum = 0    
@@ -41,7 +41,7 @@ def main_part_two():
         for line in file.readlines():
             springs, groups = spring_unpacker(line.strip(), unfold=True)
             r_sum += count_arrangements(springs, groups)
-        return r_sum
+    return r_sum
 
 if __name__ == '__main__':
     print(main_part_one())
