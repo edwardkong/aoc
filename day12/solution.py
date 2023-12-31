@@ -12,19 +12,19 @@ def spring_unpacker(line: str, unfold=False):
     return springs, groups
 
 @cache
-def count_arrangements1(springs, groups, curr_group=0):
+def count_arrangements(springs, groups, curr_group=0):
     if not springs:
         return not groups and not curr_group
     res = 0
     s = springs[0]
     if s == '?' or s == '#':
-        res += count_arrangements1(springs[1:], groups, curr_group + 1)
+        res += count_arrangements(springs[1:], groups, curr_group + 1)
     if s == '?' or s == '.':
         if curr_group:
             if groups and groups[0] == curr_group:
-                res += count_arrangements1(springs[1:], groups[1:])
+                res += count_arrangements(springs[1:], groups[1:])
         else:
-            res += count_arrangements1(springs[1:], groups)
+            res += count_arrangements(springs[1:], groups)
     return res
 
 def main_part_one():
@@ -32,7 +32,7 @@ def main_part_one():
     with open('day12/input.txt', 'r') as file:
         for line in file.readlines():
             springs, groups = spring_unpacker(line.strip())
-            r_sum += count_arrangements1(springs, tuple(groups))
+            r_sum += count_arrangements(springs, groups)
         return r_sum
 
 def main_part_two():
@@ -40,9 +40,7 @@ def main_part_two():
     with open('day12/input.txt', 'r') as file:
         for line in file.readlines():
             springs, groups = spring_unpacker(line.strip(), unfold=True)
-            r_sum += count_arrangements1(springs, tuple(groups))
-            #r_sum += count_arrangements(line, unfold=True)
-    
+            r_sum += count_arrangements(springs, groups)
         return r_sum
 
 if __name__ == '__main__':
