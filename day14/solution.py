@@ -1,43 +1,50 @@
-def find_reflection(pattern: list[str], fix=False) -> int:
-    if (row:= mirror_row(pattern, fix)) is not None:
-        return 100 * (row + 1)
-    r_pat = list(map(''.join, zip(*reversed(pattern))))
-    if (col:= mirror_row(r_pat, fix)) is not None:
-        return col + 1
-    return 0
+def roll_rocks(board: list[str]) -> list[str]:
+    h, w = len(board), len(board[0])
+    blockers = [0 for _ in range(h)]
+    tilted = [['.' for _ in range(w)] for _ in range(h)]
+    load = 0
+    for row in range(h):
+        for col in range(w):
+            if board[row][col] == 'O':
+                tilted[blockers[col]][col] = 'O'
+                load += (h - blockers[col])
+                blockers[col] += 1
+            elif board[row][col] == '#':
+                tilted[row][col] = '#'
+                blockers[col] = row + 1
+    return [''.join(x) for x in tilted]
 
-def mirror_row(pattern: list[str], fix=False) -> int:
-    n_rows = len(pattern)
-    for row in range(n_rows - 1):
-        if not fix and pattern[row] == pattern[row + 1] or fix:
-            mir = min(row, n_rows - row - 2)
-            l, r = pattern[row - mir:row + 1], pattern[row + mir + 1:row:-1]
-            if not fix and l == r or fix and compare_mirrors(l, r) == 1:
-                return row
-    return None
+def cycle_rocks(board: list[str]) -> int:
+    cache = {}
+    i = 0
+    while True:
+        curr_board = tuple(board)
+        if curr_board in cache:
+            break
+        cache[curr_board] = i
+        for _ in range(4):
+            board = [''.join(row) for row in zip(*reversed(roll_rocks(board)))]
+        i += 1
 
-def compare_mirrors(left: list[str], right: list[str]):
-    one_diff = False
-    for l, r in zip(''.join(left), ''.join(right)):
-        if l != r:
-            if one_diff:
-                return False
-            one_diff = True
-    return one_diff
+    start_cycle = cache[curr_board]
+    cycles_left = (1000000000 - start_cycle) % (i - start_cycle)
+    for _ in range(cycles_left * 4):
+        board = [''.join(row) for row in zip(*reversed(roll_rocks(board)))]
+
+    return sum_load(board)
+
+def sum_load(board: list[str]) -> int:
+    return sum(board[r].count('O') * (len(board) - r) for r in range(len(board)))
 
 def main_part_one():
-    r_sum = 0
-    with open('day13/input.txt', 'r') as file:
-        for pattern in file.read().split('\n\n'):
-            r_sum += find_reflection(pattern.split('\n'))
-    return r_sum
+    with open('day14/input.txt', 'r') as file:
+        lines = file.read().splitlines()
+    return sum_load(roll_rocks(lines))
 
-def main_part_two():
-    r_sum = 0    
-    with open('day13/input.txt', 'r') as file:
-        for pattern in file.read().split('\n\n'):
-            r_sum += find_reflection(pattern.split('\n'), fix=True)
-    return r_sum
+def main_part_two():    
+    with open('day14/input.txt', 'r') as file:
+        lines = file.read().splitlines()
+    return cycle_rocks(lines)
 
 if __name__ == '__main__':
     print(main_part_one())
