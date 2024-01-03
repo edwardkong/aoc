@@ -1,14 +1,18 @@
-def energized_tiles(tiles: list[str]):
+def energized_tiles(tiles: list[str], start=None):
     splits = []
     seen = set()
     most = 0
     starts = []
-    #curr, dir = (0, 0), (0, 1)
-
-    starts.extend([(0, x, 1, 0) for x in range(len(tiles))])
-    starts.extend([(len(tiles[0]) - 1, x, -1, 0) for x in range(len(tiles))])
-    starts.extend([(x, 0, 0, 1) for x in range(len(tiles[0]))])
-    starts.extend([(x, len(tiles) - 1, 0, -1) for x in range(len(tiles[0]))])
+    if start is None:
+        starts.append((0, 0, 1, 0))
+    else:
+        # Optimization possible by storing paths between objects/walls
+        starts.extend(
+            [(0, x, 1, 0) for x in range(len(tiles))] +
+            [(len(tiles[0]) - 1, x, -1, 0) for x in range(len(tiles))] +
+            [(x, 0, 0, 1) for x in range(len(tiles[0]))] +
+            [(x, len(tiles) - 1, 0, -1) for x in range(len(tiles[0]))]
+        )
 
     for s in starts:
         curr, dir = (s[0], s[1]), (s[2], s[3])
@@ -42,7 +46,6 @@ def energized_tiles(tiles: list[str]):
             curr = tuple(c + d for c, d in zip(curr, dir))
         most = max(most, len({(s[0], s[1]) for s in seen}))
 
-    #return len({(s[0], s[1]) for s in seen})
     return most
 
 
@@ -54,7 +57,8 @@ def main_part_one():
 
 def main_part_two():    
     with open('day16/input.txt', 'r') as file:
-        pass
+        lines = file.read().splitlines()
+    return energized_tiles(lines, start=True)
 
 if __name__ == '__main__':
     print(main_part_one())
