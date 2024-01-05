@@ -17,9 +17,9 @@ class WorkflowSorter:
                 pat = r'([a-zA-Z])([<>])(\d+):(\w+)'
                 cat, op, comp, out = re.match(pat, c).groups()
                 wfs[key].append((cat, 
-                                    int.__lt__ if op == '<' else int.__gt__, 
-                                    int(comp), 
-                                    out))
+                                 int.__lt__ if op == '<' else int.__gt__, 
+                                 int(comp), 
+                                 out))
             wfs[key].append(last)
         return wfs
     
@@ -59,21 +59,41 @@ class WorkflowSorter:
     
     def combos(self, limits=None, key='in'):
         if limits is None:
-            limits = {'x': [1, 4001], 
-                      'm': [1, 4001], 
-                      'a': [1, 4001], 
-                      's': [1, 4001]
-                      }
-        wf = self.workflows
+            limits = {'x': (1, 4000),
+                      'm': (1, 4000),
+                      'a': (1, 4000),
+                      's': (1, 4000)
+                    }
         if key == 'A':
-            return
+            c = 1
+            for lower, upper in limits.values():
+                c *= upper - lower + 1
+            return c
         elif key == 'R':
             return 0
-        for cat, op, val, dest in wf[key][:-1]:
-
-                        
-
-
+        
+        wf = self.workflows[key]
+        
+        res = 0
+        for cat, op, val, dest in wf[:-1]:
+            lower, upper = limits[cat]
+            if op is int.__lt__:
+                success = (lower, min(upper, val - 1))
+                fail = (max(val, lower), upper)
+            elif op is int.__gt__:
+                success = (max(lower, val + 1), upper)
+                fail = (lower, min(upper, val))
+            if success[0] <= success[1]:
+                limits = limits.copy()
+                limits[cat] = success
+                res += self.combos(limits, dest)
+            if fail[0] <= fail[1]:
+                limits = limits.copy()
+                limits[cat] = fail
+        
+        res += self.combos(limits, wf[-1])
+        
+        return res
 
 
 def main_part_one():
@@ -83,8 +103,10 @@ def main_part_one():
     return wfs.process_items()
 
 def main_part_two():    
-    with open('day18/input.txt', 'r') as file:
-        pass
+    with open('day19/input.txt', 'r') as file:
+        workflows, parts  = [x.splitlines() for x in file.read().split('\n\n')]
+    wfs = WorkflowSorter(workflows, parts)
+    return wfs.combos()
 
 if __name__ == '__main__':
     print(main_part_one())
