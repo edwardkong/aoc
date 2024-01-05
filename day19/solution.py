@@ -43,8 +43,7 @@ class WorkflowSorter:
             while True:
                 process = wf[key]
                 matched = False
-                for rule in process[:-1]:
-                    cat, op, val, dest = rule
+                for cat, op, val, dest in process[:-1]:
                     if op(part[cat], val):
                         key = dest
                         matched = True
@@ -56,8 +55,22 @@ class WorkflowSorter:
                 elif key == 'A':
                     res += sum(part.values())
                     break
-                
         return res
+    
+    def combos(self, limits=None, key='in'):
+        if limits is None:
+            limits = {'x': [1, 4001], 
+                      'm': [1, 4001], 
+                      'a': [1, 4001], 
+                      's': [1, 4001]
+                      }
+        wf = self.workflows
+        if key == 'A':
+            return
+        elif key == 'R':
+            return 0
+        for cat, op, val, dest in wf[key][:-1]:
+
                         
 
 
