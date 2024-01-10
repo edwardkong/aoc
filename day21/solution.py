@@ -20,12 +20,10 @@ class Garden:
         q = deque([(row, col, n)])
         while q:
             r, c, steps = q.popleft()
-
             if steps % 2 == 0:
                 res.add((r, c))
             if steps == 0:
                 continue
-
             for nr, nc in [(r + 1, c), (r - 1, c), (r, c + 1), (r, c - 1)]:
                 if (not (0 <= nr < self.h) or
                     not (0 <= nc < self.w) or 
@@ -34,18 +32,17 @@ class Garden:
                     continue
                 seen.add((nr, nc))
                 q.append((nr, nc, steps - 1))
-        
         return len(res)
 
     def visit_all(self, parity=None):
         seen = set()
-        parity_seen = set()
+        if parity:
+            parity_seen = set()
         q = deque([(self.s[0], self.s[1], 1)])
         while q:
             r, c, steps = q.popleft()
             for nr, nc in [(r + 1, c), (r - 1, c), (r, c + 1), (r, c - 1)]:
-                if (not (0 <= nr < self.h) or
-                    not (0 <= nc < self.w) or 
+                if (not (0 <= nr < self.h) or not (0 <= nc < self.w) or 
                     self.grid[nr][nc] == "#" or
                     (nr, nc) in seen):
                     continue
@@ -56,8 +53,7 @@ class Garden:
                 q.append((nr, nc, steps + 1))
         if parity is None:
             return len(seen)
-        else:
-            return len(parity_seen)
+        return len(parity_seen)
     
     def calc_area(self, n):
         l = self.w
@@ -71,7 +67,6 @@ class Garden:
                 entry (list[int]): The closest point to the center per grid.
                 count (int): The amount of each type of grid.
                 steps (int): The length travelled into each type of grid.
-
             Returns:
                 int: The total number of squares visited for each type of grid
             """
