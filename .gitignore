@@ -20,3 +20,6 @@ build/
 
 # Ignore all inputs
 **/input.txt
+
+day21/solution_matrix.py
+day23/dfsmemo.py
