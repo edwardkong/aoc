@@ -17,52 +17,52 @@ ___
 For reference, I list below the techniques, algorithms, or libraries used to solve each day's problem, as well as the discipline or subcategory of the problem if applicable.
 
 ### Day 1: Trebuchet?!
-[[Regex]], [[String Manipulation]]
+Regex, String Manipulation
 ### Day 2: Cube Conundrum
 N/A
 ### Day 3: Gear Ratios
-[[Grid Problems]]
+Grid Problems
 ### Day 4: Scratchcards
-[[Dynamic Programming]], [[Set Algebra]]
+Dynamic Programming, Set Algebra
 ### Day 5: If You Give A Seed A Fertilizer
-[[Computational Geometry]], [[Interval Transformation]]
+Computational Geometry, Interval Transformation
 ### Day 6: Wait For It
-[[Quadratic Equation]]
+Quadratic Equation
 ### Day 7: Camel Cards
-[[Combinatorics]]
+Combinatorics
 ### Day 8: Haunted Wasteland
-[[Graph Theory]], [[Computational Mathematics]]
+Graph Theory, Computational Mathematics
 ### Day 9: Mirage Maintenance
-[[Number Theory]], [[Recursion]]
+Number Theory, Recursion
 ### Day 10: Pipe Maze
-[[Grid Problems]], [[Computational Geometry]], [[Ray Casting]]
+Grid Problems, Computational Geometry, Ray Casting
 ### Day 11: Cosmic Expansion
-[[Grid Problems]], [[Computational Geometry]]
+Grid Problems, Computational Geometry
 ### Day 12: Hot Springs
-[[Combinatorics]], [[Recursion]], [[String Manipulation]]
+Combinatorics, Recursion, String Manipulation
 ### Day 13: Point of Incidence
-[[Grid Problems]], [[Array Manipulation]]
+Grid Problems, Array Manipulation
 ### Day 14: Parabolic Reflector Dish
-[[Grid Problems]]
+Grid Problems
 ### Day 15: Lens Library
-[[Hashing]]
+Hashing
 ### Day 16: The Floor Will Be Lava
-[[Grid Problems]], [[DFS]]
+Grid Problems, DFS
 ### Day 17: Clumsy Crucible
-[[Grid Problems]], [[Priority Queue]], [[Path Finding Algorithms]]
+Grid Problems, Priority Queue, Path Finding Algorithms
 ### Day 18: Lavaduct Lagoon
-[[Computational Mathematics]], [[Shoelace Theory]], [[Pick's Theorem]]
+Computational Mathematics, Shoelace Theory, Pick's Theorem
 ### Day 19: Aplenty
-[[Regex]], [[Combinatorics]], [[Computational Geometry]], [[Recursion]], [[Directed Acyclic Graph]]
+Regex, Combinatorics, Computational Geometry, Recursion, Directed Acyclic Graph
 ### Day 20: Pulse Propagation
-[[Graph Theory]], [[State Machine]], [[Event Driven Programming]], [[Computational Mathematics]]
+Graph Theory, State Machine, Event Driven Programming, Computational Mathematics
 ### Day 21: Step Counter
-[[Computational Geometry]], [[Computational Mathematics]], [[Three Point Formula]], [[Grid Problems]], [[BFS]]
+Computational Geometry, Computational Mathematics, Three Point Formula, Grid Problems, BFS
 ### Day 22: Sand Slabs
-[[Computational Geometry]], [[Graph Theory]]
+Computational Geometry, Graph Theory
 ### Day 23: A Long Walk
-[[Grid Problems]], [[Path Finding Algorithms]], [[DFS]], [[Recursion]], [[Graph Theory]], [[Directed Acyclic Graph]]
+Grid Problems, Path Finding Algorithms, DFS, Recursion, Graph Theory, Directed Acyclic Graph
 ### Day 24: Never Tell Me The Odds
-[[Computational Mathematics]], [[Computational Geometry]], [[Linear Algebra]], [[System of Equations]], [[SymPy]]
+Computational Mathematics, Computational Geometry, Linear Algebra, System of Equations, SymPy
 ### Day 25: Snowverload
-[[Graph Theory]], [[NetworkX]]
+Graph Theory, NetworkX
